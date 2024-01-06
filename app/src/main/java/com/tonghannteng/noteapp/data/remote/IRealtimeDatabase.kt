@@ -1,5 +1,6 @@
-package com.tonghannteng.noteapp.data
+package com.tonghannteng.noteapp.data.remote
 
+import com.tonghannteng.noteapp.data.Note
 import kotlinx.coroutines.flow.Flow
 
 /**
