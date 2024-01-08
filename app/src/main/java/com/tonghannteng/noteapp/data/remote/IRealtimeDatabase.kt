@@ -1,6 +1,6 @@
 package com.tonghannteng.noteapp.data.remote
 
-import com.tonghannteng.noteapp.data.Note
+import com.tonghannteng.noteapp.data.model.Note
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.Flow
  * @since: 1/4/24
  */
 interface IRealtimeDatabase {
-
-    suspend fun getTodoNote(): Flow<List<Note>>
+    suspend fun getTodoNote(): Flow<RealtimeDatabaseResult<List<Note>>>
 }

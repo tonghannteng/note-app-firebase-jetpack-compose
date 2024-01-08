@@ -1,6 +1,6 @@
 package com.tonghannteng.noteapp.data.repository
 
-import com.tonghannteng.noteapp.data.Note
+import com.tonghannteng.noteapp.data.model.Note
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
  * @since: 1/6/24
  */
 interface IRepository {
-    fun getTodoNote(): Flow<List<Note>>
+    fun getTodoNote(): Flow<RepositoryResult<List<Note>>>
 }

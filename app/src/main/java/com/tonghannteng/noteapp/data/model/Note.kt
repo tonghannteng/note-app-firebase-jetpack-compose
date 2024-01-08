@@ -1,4 +1,4 @@
-package com.tonghannteng.noteapp.data
+package com.tonghannteng.noteapp.data.model
 
 /**
  * @author: Tonghann Teng

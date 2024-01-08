@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
-import com.tonghannteng.noteapp.data.Note
+import com.tonghannteng.noteapp.data.model.Note
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -19,18 +19,18 @@ class RealtimeDatabaseImpl @Inject constructor(
     private val databaseReference: DatabaseReference
 ) : IRealtimeDatabase {
 
-    override suspend fun getTodoNote(): Flow<List<Note>> =
+    override suspend fun getTodoNote(): Flow<RealtimeDatabaseResult<List<Note>>> =
         callbackFlow {
             val listener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val todoData = snapshot.children.map {
                         it.getValue<Note>()!!
                     }
-                    trySend(todoData)
+                    trySend(RealtimeDatabaseResult.Success(todoData))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
+                    trySend(RealtimeDatabaseResult.Failure(error.toException()))
                 }
             }
             databaseReference.addValueEventListener(listener)

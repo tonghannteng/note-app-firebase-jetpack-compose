@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tonghannteng.noteapp.data.repository.IRepository
+import com.tonghannteng.noteapp.data.repository.RepositoryResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
@@ -31,8 +32,17 @@ class NoteViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             repository.getTodoNote()
                 .flowOn(Dispatchers.IO)
-                .collect {
-                    Log.d(TAG, it.toString())
+                .collect { result ->
+                    when (result) {
+                        is RepositoryResult.Success -> {
+                            Log.d(TAG, result.data.toString())
+                        }
+
+                        is RepositoryResult.Failure -> {
+                            Log.d(TAG, result.exception.toString())
+                        }
+                    }
+
                 }
         }
     }
