@@ -3,7 +3,9 @@ package com.tonghannteng.noteapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.tonghannteng.noteapp.presentation.NoteItemScreen
 import com.tonghannteng.noteapp.ui.theme.NoteAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +19,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteAppTheme {
-                val viewModel = hiltViewModel<NoteViewModel>()
+                val noteViewModel = hiltViewModel<NoteViewModel>()
+                val noteItems = noteViewModel.noteItemResult.collectAsState().value
+                NoteItemScreen(
+                    noteItems = noteItems
+                )
             }
         }
     }

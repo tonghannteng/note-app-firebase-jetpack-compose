@@ -1,12 +1,15 @@
 package com.tonghannteng.noteapp
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.data.repository.IRepository
-import com.tonghannteng.noteapp.data.repository.RepositoryResult
+import com.tonghannteng.noteapp.data.repository.RepositoryState
+import com.tonghannteng.noteapp.presentation.NoteUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +27,9 @@ class NoteViewModel @Inject constructor(
         private const val TAG = "NoteViewModel"
     }
 
+    private var _noteItemResult = MutableStateFlow<NoteUIState<List<Note>>>(NoteUIState.Loading())
+    var noteItemResult = _noteItemResult.asStateFlow()
+
     init {
         getTodoNote()
     }
@@ -34,12 +40,12 @@ class NoteViewModel @Inject constructor(
                 .flowOn(Dispatchers.IO)
                 .collect { result ->
                     when (result) {
-                        is RepositoryResult.Success -> {
-                            Log.d(TAG, result.data.toString())
+                        is RepositoryState.Success -> {
+                            _noteItemResult.value = NoteUIState.Success(result.data)
                         }
 
-                        is RepositoryResult.Failure -> {
-                            Log.d(TAG, result.exception.toString())
+                        is RepositoryState.Failure -> {
+                            _noteItemResult.value = NoteUIState.Error(result.exception.toString())
                         }
                     }
 

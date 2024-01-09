@@ -2,7 +2,7 @@ package com.tonghannteng.noteapp.data.repository
 
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.data.remote.IRealtimeDatabase
-import com.tonghannteng.noteapp.data.remote.RealtimeDatabaseResult
+import com.tonghannteng.noteapp.data.remote.RealtimeDatabaseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,22 +17,22 @@ class RepositoryImpl @Inject constructor(
     private val realtimeDatabase: IRealtimeDatabase
 ) : IRepository {
 
-    override fun getTodoNote(): Flow<RepositoryResult<List<Note>>> {
+    override fun getTodoNote(): Flow<RepositoryState<List<Note>>> {
         return flow {
             realtimeDatabase.getTodoNote().collect { result ->
                 try {
                     when (result) {
-                        is RealtimeDatabaseResult.Success -> {
-                            emit(RepositoryResult.Success(result.data))
+                        is RealtimeDatabaseState.Success -> {
+                            emit(RepositoryState.Success(result.data))
                         }
 
-                        is RealtimeDatabaseResult.Failure -> {
-                            emit(RepositoryResult.Failure(result.exception))
+                        is RealtimeDatabaseState.Failure -> {
+                            emit(RepositoryState.Failure(result.exception))
                         }
                     }
 
                 } catch (e: Exception) {
-                    emit(RepositoryResult.Failure(e))
+                    emit(RepositoryState.Failure(e))
                 }
             }
         }.flowOn(Dispatchers.IO)

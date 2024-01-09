@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
  * @since: 1/4/24
  */
 interface IRealtimeDatabase {
-    suspend fun getTodoNote(): Flow<RealtimeDatabaseResult<List<Note>>>
+    suspend fun getTodoNote(): Flow<RealtimeDatabaseState<List<Note>>>
 }

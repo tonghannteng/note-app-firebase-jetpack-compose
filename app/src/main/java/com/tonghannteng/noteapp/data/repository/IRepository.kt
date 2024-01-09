@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
  * @since: 1/6/24
  */
 interface IRepository {
-    fun getTodoNote(): Flow<RepositoryResult<List<Note>>>
+    fun getTodoNote(): Flow<RepositoryState<List<Note>>>
 }

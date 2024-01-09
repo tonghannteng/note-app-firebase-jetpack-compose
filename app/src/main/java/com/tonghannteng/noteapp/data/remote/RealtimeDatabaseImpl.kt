@@ -19,18 +19,18 @@ class RealtimeDatabaseImpl @Inject constructor(
     private val databaseReference: DatabaseReference
 ) : IRealtimeDatabase {
 
-    override suspend fun getTodoNote(): Flow<RealtimeDatabaseResult<List<Note>>> =
+    override suspend fun getTodoNote(): Flow<RealtimeDatabaseState<List<Note>>> =
         callbackFlow {
             val listener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val todoData = snapshot.children.map {
                         it.getValue<Note>()!!
                     }
-                    trySend(RealtimeDatabaseResult.Success(todoData))
+                    trySend(RealtimeDatabaseState.Success(todoData))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    trySend(RealtimeDatabaseResult.Failure(error.toException()))
+                    trySend(RealtimeDatabaseState.Failure(error.toException()))
                 }
             }
             databaseReference.addValueEventListener(listener)
