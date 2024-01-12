@@ -27,7 +27,7 @@ fun NoteItemCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(2.dp),
+            .padding(top = 2.dp, bottom = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         )

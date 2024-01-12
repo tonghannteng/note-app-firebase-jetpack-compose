@@ -28,7 +28,7 @@ fun NoteItemScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(2.dp)
             ) {
                 items(noteItems.data.size) {
                     NoteItemCard(
