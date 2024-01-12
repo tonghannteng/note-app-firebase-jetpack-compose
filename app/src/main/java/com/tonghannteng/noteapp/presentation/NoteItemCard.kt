@@ -27,22 +27,24 @@ fun NoteItemCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         )
     ) {
 
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             horizontalArrangement = Arrangement.Start
         ) {
             Text(
                 text = note.title,
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-                maxLines = 1,
+                fontSize = 24.sp,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -59,7 +61,7 @@ fun NoteItemCard(
                 Text(
                     text = note.description,
                     style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 24.sp,
+                    fontSize = 16.sp,
                     maxLines = 10,
                     overflow = TextOverflow.Ellipsis
                 )

@@ -15,7 +15,6 @@ fun NoteItemScreen(
     noteItems: NoteUIState<List<Note>>
 ) {
 
-
     when (noteItems) {
         is NoteUIState.Error -> {
             Log.e("NoteItemScreen", noteItems.error)
