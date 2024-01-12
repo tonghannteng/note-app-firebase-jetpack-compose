@@ -1,5 +1,6 @@
 package com.tonghannteng.noteapp.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,9 +15,10 @@ fun NoteItemScreen(
     noteItems: NoteUIState<List<Note>>
 ) {
 
+
     when (noteItems) {
         is NoteUIState.Error -> {
-
+            Log.e("NoteItemScreen", noteItems.error)
         }
 
         is NoteUIState.Loading -> {
