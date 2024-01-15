@@ -4,12 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.navigation.NavigationAppHost
-import com.tonghannteng.noteapp.presentation.home.NoteViewModel
 import com.tonghannteng.noteapp.ui.theme.NoteAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 

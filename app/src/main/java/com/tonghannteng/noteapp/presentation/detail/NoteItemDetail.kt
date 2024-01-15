@@ -1,12 +1,31 @@
 package com.tonghannteng.noteapp.presentation.detail
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.tonghannteng.noteapp.presentation.home.NoteUIState
 
+/**
+ * @author: Tonghann Teng
+ * @since: 1/15/24
+ */
 @Composable
-fun NoteItemDetail(noteId: Int) {
+fun NoteItemDetail() {
 
-    Text(text = noteId.toString(), modifier = Modifier.fillMaxWidth())
+    val noteDetailViewModel = hiltViewModel<NoteDetailViewModel>()
+    val noteDetail = noteDetailViewModel.noteDetailResult.collectAsState().value
+
+    when (noteDetail) {
+        is NoteUIState.Error -> {
+
+        }
+
+        is NoteUIState.Loading -> {
+
+        }
+
+        is NoteUIState.Success -> {
+            NoteDetailScreen(note = noteDetail.data)
+        }
+    }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.data.repository.IRepository
 import com.tonghannteng.noteapp.data.repository.RepositoryState
-import com.tonghannteng.noteapp.presentation.home.NoteUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +18,7 @@ import javax.inject.Inject
  * @since: 1/6/24
  */
 @HiltViewModel
-class NoteViewModel @Inject constructor(
+class NoteItemViewModel @Inject constructor(
     private val repository: IRepository
 ) : ViewModel() {
 

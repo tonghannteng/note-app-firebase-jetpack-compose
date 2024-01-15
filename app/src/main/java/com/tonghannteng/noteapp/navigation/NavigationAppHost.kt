@@ -29,12 +29,8 @@ fun NavigationAppHost(
         composable(
             route = "${Route.DETAIL}/{${Argument.NOTE_ID}}",
             arguments = listOf(navArgument(Argument.NOTE_ID) { type = NavType.IntType })
-        ) { backStackEntry ->
-            run {
-                val noteId = backStackEntry.arguments?.getInt(Argument.NOTE_ID) ?: 0
-                NoteItemDetail(noteId = noteId)
-            }
-
+        ) {
+            NoteItemDetail()
         }
     }
 
