@@ -1,4 +1,4 @@
-package com.tonghannteng.noteapp.presentation
+package com.tonghannteng.noteapp.presentation.home
 
 sealed class NoteUIState<T> {
     data class Success<T>(val data: T) : NoteUIState<T>()

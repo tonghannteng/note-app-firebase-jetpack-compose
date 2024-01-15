@@ -1,11 +1,11 @@
-package com.tonghannteng.noteapp
+package com.tonghannteng.noteapp.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.data.repository.IRepository
 import com.tonghannteng.noteapp.data.repository.RepositoryState
-import com.tonghannteng.noteapp.presentation.NoteUIState
+import com.tonghannteng.noteapp.presentation.home.NoteUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

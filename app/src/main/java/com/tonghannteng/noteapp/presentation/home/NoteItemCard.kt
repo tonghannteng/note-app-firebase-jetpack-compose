@@ -1,5 +1,6 @@
-package com.tonghannteng.noteapp.presentation
+package com.tonghannteng.noteapp.presentation.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,13 +22,15 @@ import com.tonghannteng.noteapp.data.model.Note
 @Composable
 fun NoteItemCard(
     note: Note,
-    modifier: Modifier
+    modifier: Modifier,
+    onItemClicked: (noteId: Int) -> Unit
 ) {
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 2.dp, bottom = 2.dp),
+            .padding(top = 2.dp, bottom = 2.dp)
+            .clickable { onItemClicked(note.id) },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         )
