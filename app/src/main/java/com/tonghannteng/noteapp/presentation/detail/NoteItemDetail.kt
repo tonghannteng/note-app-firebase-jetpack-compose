@@ -12,7 +12,7 @@ import com.tonghannteng.noteapp.presentation.home.NoteUIState
 @Composable
 fun NoteItemDetail() {
 
-    val noteDetailViewModel = hiltViewModel<NoteDetailViewModel>()
+    val noteDetailViewModel = hiltViewModel<NoteDetailEditViewModel>()
     val noteDetail = noteDetailViewModel.noteDetailResult.collectAsState().value
 
     when (noteDetail) {

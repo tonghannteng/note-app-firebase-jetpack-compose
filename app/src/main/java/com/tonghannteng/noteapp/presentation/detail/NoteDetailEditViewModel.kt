@@ -21,7 +21,7 @@ import javax.inject.Inject
  * @since: 1/15/24
  */
 @HiltViewModel
-class NoteDetailViewModel @Inject constructor(
+class NoteDetailEditViewModel @Inject constructor(
     private val repository: IRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -36,7 +36,15 @@ class NoteDetailViewModel @Inject constructor(
     var noteDetailResult = _noteDetailResult.asStateFlow()
 
     init {
-        getNoteDetail()
+        if (noteId != -1) {
+            getNoteDetail()
+        } else {
+            val note = Note(
+                title = "Enter title...",
+                description = "Enter description..."
+            )
+            _noteDetailResult.value = NoteUIState.Success(note)
+        }
     }
 
     private fun getNoteDetail() {
@@ -57,6 +65,8 @@ class NoteDetailViewModel @Inject constructor(
                         is RepositoryState.Failure -> {
                             _noteDetailResult.value = NoteUIState.Error(result.exception.toString())
                         }
+
+                        else -> {}
                     }
 
                 }

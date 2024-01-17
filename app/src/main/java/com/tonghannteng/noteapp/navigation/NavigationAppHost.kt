@@ -21,9 +21,11 @@ fun NavigationAppHost(
         navController = navController, startDestination = Route.HOME
     ) {
         composable(Route.HOME) { backStackEntry ->
-            NoteItemScreen(onItemClicked = { noteId ->
-                navController.navigate("${Route.DETAIL}/${noteId}")
-            })
+            NoteItemScreen(
+                navController = navController,
+                onItemClicked = { noteId ->
+                    navController.navigate("${Route.DETAIL}/${noteId}")
+                })
         }
 
         composable(
