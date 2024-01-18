@@ -1,6 +1,7 @@
 package com.tonghannteng.noteapp.presentation.detail
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,21 +22,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.presentation.compenents.TransparentHintTextField
+import com.tonghannteng.noteapp.presentation.home.NoteUIState
 
 /**
  * @author: Tonghann Teng
  * @since: 1/15/24
  */
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun NoteDetailScreen(
+    viewModel: NoteDetailEditViewModel,
     note: Note
 ) {
+
+    val state = viewModel.state.value
+
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { }) {
+            FloatingActionButton(onClick = {
+                viewModel.onEvent(NoteDetailEditEvent.SaveNote)
+            }) {
                 Icon(imageVector = Icons.Default.Check, contentDescription = "Save note")
             }
         }
@@ -69,9 +79,11 @@ fun NoteDetailScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 TransparentHintTextField(
-                    text = note.description,
+                    text = state.description,
                     hint = "",
-                    onValueChange = {},
+                    onValueChange = {
+                        viewModel.onEvent(NoteDetailEditEvent.EnterDescription(it))
+                    },
                     onFocusChange = {},
                     singleLine = true,
                     textStyle = MaterialTheme.typography.titleLarge

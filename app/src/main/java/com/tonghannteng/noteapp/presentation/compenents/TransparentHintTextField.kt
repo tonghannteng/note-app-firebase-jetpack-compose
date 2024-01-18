@@ -11,6 +11,10 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 
+/**
+ * @author: Tonghann Teng
+ * @since: 1/16/24
+ */
 @Composable
 fun TransparentHintTextField(
     text: String,

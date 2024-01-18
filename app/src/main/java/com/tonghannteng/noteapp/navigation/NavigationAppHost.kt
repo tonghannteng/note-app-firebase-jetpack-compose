@@ -1,11 +1,13 @@
 package com.tonghannteng.noteapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.tonghannteng.noteapp.presentation.detail.NoteDetailEditViewModel
 import com.tonghannteng.noteapp.presentation.detail.NoteItemDetail
 import com.tonghannteng.noteapp.presentation.home.NoteItemScreen
 
@@ -32,7 +34,11 @@ fun NavigationAppHost(
             route = "${Route.DETAIL}/{${Argument.NOTE_ID}}",
             arguments = listOf(navArgument(Argument.NOTE_ID) { type = NavType.IntType })
         ) {
-            NoteItemDetail()
+            val viewModel = hiltViewModel<NoteDetailEditViewModel>()
+            NoteItemDetail(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 

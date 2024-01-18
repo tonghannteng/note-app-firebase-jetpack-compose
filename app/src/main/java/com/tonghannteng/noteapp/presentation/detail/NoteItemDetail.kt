@@ -1,19 +1,34 @@
 package com.tonghannteng.noteapp.presentation.detail
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.tonghannteng.noteapp.presentation.home.NoteUIState
+import kotlinx.coroutines.flow.collectLatest
 
 /**
  * @author: Tonghann Teng
  * @since: 1/15/24
  */
 @Composable
-fun NoteItemDetail() {
+fun NoteItemDetail(
+    navController: NavController,
+    viewModel: NoteDetailEditViewModel
+) {
 
-    val noteDetailViewModel = hiltViewModel<NoteDetailEditViewModel>()
-    val noteDetail = noteDetailViewModel.noteDetailResult.collectAsState().value
+    val noteDetail = viewModel.noteDetailResult.collectAsState().value
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is NoteDetailEditViewModel.UiEvent.SaveNote -> {
+                    navController.navigateUp()
+                }
+            }
+        }
+    }
 
     when (noteDetail) {
         is NoteUIState.Error -> {
@@ -25,7 +40,10 @@ fun NoteItemDetail() {
         }
 
         is NoteUIState.Success -> {
-            NoteDetailScreen(note = noteDetail.data)
+            NoteDetailScreen(
+                viewModel = viewModel,
+                note = noteDetail.data
+            )
         }
     }
 }

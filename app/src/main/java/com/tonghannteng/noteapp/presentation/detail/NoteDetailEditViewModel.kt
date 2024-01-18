@@ -1,5 +1,7 @@
 package com.tonghannteng.noteapp.presentation.detail
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +12,9 @@ import com.tonghannteng.noteapp.navigation.Argument
 import com.tonghannteng.noteapp.presentation.home.NoteUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -34,6 +38,12 @@ class NoteDetailEditViewModel @Inject constructor(
 
     private var _noteDetailResult = MutableStateFlow<NoteUIState<Note>>(NoteUIState.Loading())
     var noteDetailResult = _noteDetailResult.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    var eventFlow = _eventFlow.asSharedFlow()
+
+    private val _state = mutableStateOf(Note())
+    val state: State<Note> = _state
 
     init {
         if (noteId != -1) {
@@ -59,6 +69,7 @@ class NoteDetailEditViewModel @Inject constructor(
                                 _noteDetailResult.value = NoteUIState.Error("Note ID Note Found")
                             } else {
                                 _noteDetailResult.value = NoteUIState.Success(noteDetail)
+                                _state.value = noteDetail.copy()
                             }
                         }
 
@@ -66,10 +77,28 @@ class NoteDetailEditViewModel @Inject constructor(
                             _noteDetailResult.value = NoteUIState.Error(result.exception.toString())
                         }
 
-                        else -> {}
                     }
 
                 }
         }
+    }
+
+    fun onEvent(event: NoteDetailEditEvent) {
+        when (event) {
+            is NoteDetailEditEvent.SaveNote -> {
+                viewModelScope.launch {
+                    _eventFlow.emit(UiEvent.SaveNote)
+                }
+            }
+            is NoteDetailEditEvent.EnterDescription -> {
+                _state.value = _state.value.copy(
+                    description = event.value
+                )
+            }
+        }
+    }
+
+    sealed class UiEvent {
+        data object SaveNote: UiEvent()
     }
 }
