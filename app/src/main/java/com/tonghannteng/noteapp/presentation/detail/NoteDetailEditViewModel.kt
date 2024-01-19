@@ -83,13 +83,37 @@ class NoteDetailEditViewModel @Inject constructor(
         }
     }
 
+    private fun updateNote() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val updateNote = _state.value
+            repository.updateTodoNote(note = updateNote)
+                .flowOn(Dispatchers.IO)
+                .collect { result ->
+                    when (result) {
+                        is RepositoryState.Success -> {
+                            _eventFlow.emit(UiEvent.SaveNote)
+                        }
+
+                        is RepositoryState.Failure -> {
+                            // TODO: implement error case
+                        }
+                    }
+                }
+        }
+    }
+
     fun onEvent(event: NoteDetailEditEvent) {
         when (event) {
             is NoteDetailEditEvent.SaveNote -> {
-                viewModelScope.launch {
-                    _eventFlow.emit(UiEvent.SaveNote)
-                }
+                updateNote()
             }
+
+            is NoteDetailEditEvent.EnterTitle -> {
+                _state.value = _state.value.copy(
+                    title = event.value
+                )
+            }
+
             is NoteDetailEditEvent.EnterDescription -> {
                 _state.value = _state.value.copy(
                     description = event.value
@@ -99,6 +123,6 @@ class NoteDetailEditViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data object SaveNote: UiEvent()
+        data object SaveNote : UiEvent()
     }
 }

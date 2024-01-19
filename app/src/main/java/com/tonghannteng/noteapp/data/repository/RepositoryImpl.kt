@@ -1,5 +1,6 @@
 package com.tonghannteng.noteapp.data.repository
 
+import android.util.Log
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.data.remote.IRealtimeDatabase
 import com.tonghannteng.noteapp.data.remote.RealtimeDatabaseState
@@ -37,4 +38,25 @@ class RepositoryImpl @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    override fun updateTodoNote(note: Note): Flow<RepositoryState<Boolean>> {
+        return flow {
+            realtimeDatabase.updateTodoNote(note = note).collect { result ->
+                try {
+                    when (result) {
+                        is RealtimeDatabaseState.Success -> {
+                            emit(RepositoryState.Success(result.data))
+                        }
+
+                        is RealtimeDatabaseState.Failure -> {
+                            emit(RepositoryState.Failure(result.exception))
+                        }
+                    }
+                } catch (e: Exception) {
+                    emit(RepositoryState.Failure(e))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 }

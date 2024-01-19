@@ -9,4 +9,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface IRepository {
     fun getTodoNote(): Flow<RepositoryState<List<Note>>>
+    fun updateTodoNote(note: Note): Flow<RepositoryState<Boolean>>
 }

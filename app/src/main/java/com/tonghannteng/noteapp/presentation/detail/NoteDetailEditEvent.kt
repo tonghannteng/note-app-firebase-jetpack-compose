@@ -5,6 +5,7 @@ package com.tonghannteng.noteapp.presentation.detail
  * @since: 1/17/24
  */
 sealed class NoteDetailEditEvent {
+    data class EnterTitle(val value: String): NoteDetailEditEvent()
     data class EnterDescription(val value: String): NoteDetailEditEvent()
     data object SaveNote: NoteDetailEditEvent()
 }

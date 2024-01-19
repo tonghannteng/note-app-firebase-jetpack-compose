@@ -1,7 +1,6 @@
 package com.tonghannteng.noteapp.presentation.detail
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,11 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.presentation.compenents.TransparentHintTextField
-import com.tonghannteng.noteapp.presentation.home.NoteUIState
 
 /**
  * @author: Tonghann Teng
@@ -70,9 +66,11 @@ fun NoteDetailScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 TransparentHintTextField(
-                    text = note.title,
+                    text = state.title,
                     hint = "",
-                    onValueChange = {},
+                    onValueChange = {
+                        viewModel.onEvent(NoteDetailEditEvent.EnterTitle(it))
+                    },
                     onFocusChange = {},
                     singleLine = true,
                     textStyle = MaterialTheme.typography.titleLarge
