@@ -61,7 +61,10 @@ fun NoteItemScreen(
                         NoteItemCard(
                             note = noteItems.data[it],
                             modifier = Modifier,
-                            onItemClicked = onItemClicked
+                            onItemClicked = onItemClicked,
+                            onItemDeleted = {
+                                noteItemViewModel.onItemDelete(noteItems.data[it].id)
+                            }
                         )
                     }
                 }

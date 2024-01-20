@@ -1,5 +1,6 @@
 package com.tonghannteng.noteapp.presentation.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tonghannteng.noteapp.data.model.Note
@@ -51,4 +52,9 @@ class NoteItemViewModel @Inject constructor(
                 }
         }
     }
+
+    fun onItemDelete(id: Int) {
+        Log.d("LogLogLog", id.toString())
+    }
+
 }

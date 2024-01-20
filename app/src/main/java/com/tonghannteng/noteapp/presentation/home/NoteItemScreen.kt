@@ -29,7 +29,8 @@ import com.tonghannteng.noteapp.data.model.Note
 fun NoteItemCard(
     note: Note,
     modifier: Modifier,
-    onItemClicked: (noteId: Int) -> Unit
+    onItemClicked: (noteId: Int) -> Unit,
+    onItemDeleted: () -> Unit
 ) {
 
     Box(
@@ -63,7 +64,7 @@ fun NoteItemCard(
         }
 
         IconButton(
-            onClick = { },
+            onClick = onItemDeleted,
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(
