@@ -59,4 +59,24 @@ class RepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    override fun deleteTodoNoteById(noteId: String): Flow<RepositoryState<String>> {
+        return flow {
+            realtimeDatabase.deleteTodoNoteById(noteId = noteId).collect { result ->
+                try {
+                    when (result) {
+                        is RealtimeDatabaseState.Success -> {
+                            emit(RepositoryState.Success(result.data))
+                        }
+
+                        is RealtimeDatabaseState.Failure -> {
+                            emit(RepositoryState.Failure(result.exception))
+                        }
+                    }
+                } catch (e: Exception) {
+                    emit(RepositoryState.Failure(e))
+                }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 }

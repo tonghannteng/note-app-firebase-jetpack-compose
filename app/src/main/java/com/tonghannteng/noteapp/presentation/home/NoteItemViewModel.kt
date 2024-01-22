@@ -1,6 +1,5 @@
 package com.tonghannteng.noteapp.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tonghannteng.noteapp.data.model.Note
@@ -30,6 +29,9 @@ class NoteItemViewModel @Inject constructor(
     private var _noteItemResult = MutableStateFlow<NoteUIState<List<Note>>>(NoteUIState.Loading())
     var noteItemResult = _noteItemResult.asStateFlow()
 
+    private var _deleteNoteResult = MutableStateFlow<NoteUIState<String>>(NoteUIState.Loading())
+    var deleteNoteResult = _deleteNoteResult.asStateFlow()
+
     init {
         getTodoNote()
     }
@@ -54,7 +56,20 @@ class NoteItemViewModel @Inject constructor(
     }
 
     fun onItemDelete(id: Int) {
-        Log.d("LogLogLog", id.toString())
+        viewModelScope.launch(Dispatchers.Main) {
+            repository.deleteTodoNoteById(noteId = id.toString())
+                .flowOn(Dispatchers.IO)
+                .collect { result ->
+                    when (result) {
+                        is RepositoryState.Success -> {
+                            _deleteNoteResult.emit(NoteUIState.Success(result.data))
+                        }
+                        is RepositoryState.Failure -> {
+                            _deleteNoteResult.emit(NoteUIState.Error(result.exception.toString()))
+                        }
+                    }
+                }
+        }
     }
 
 }

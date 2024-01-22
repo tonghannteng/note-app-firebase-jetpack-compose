@@ -52,4 +52,18 @@ class RealtimeDatabaseImpl @Inject constructor(
                 .addOnCompleteListener(listener)
             awaitClose { close() }
         }
+
+    override suspend fun deleteTodoNoteById(noteId: String): Flow<RealtimeDatabaseState<String>> =
+        callbackFlow {
+            val listener = OnCompleteListener<Void> {
+                if (it.isSuccessful) {
+                    trySend(RealtimeDatabaseState.Success(data = noteId))
+                } else {
+                    trySend(RealtimeDatabaseState.Failure(Exception("Delete note failed")))
+                }
+            }
+            databaseReference.child(noteId).removeValue()
+                .addOnCompleteListener(listener)
+            awaitClose { close() }
+        }
 }
