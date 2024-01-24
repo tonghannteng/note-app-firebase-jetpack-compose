@@ -11,4 +11,5 @@ interface IRealtimeDatabase {
     suspend fun getTodoNote(): Flow<RealtimeDatabaseState<List<Note>>>
     suspend fun updateTodoNote(note: Note): Flow<RealtimeDatabaseState<Boolean>>
     suspend fun deleteTodoNoteById(noteId: String): Flow<RealtimeDatabaseState<String>>
+    suspend fun generateTodoNoteId(): Flow<String>
 }

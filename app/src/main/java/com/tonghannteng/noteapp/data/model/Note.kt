@@ -10,5 +10,5 @@ data class Note(
     val timestamp: Long = 0,
     val completed: Boolean = false,
     val archived: Boolean = false,
-    val id: Int = 0
+    val id: String = ""
 )

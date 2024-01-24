@@ -29,7 +29,7 @@ import com.tonghannteng.noteapp.data.model.Note
 fun NoteItemCard(
     note: Note,
     modifier: Modifier,
-    onItemClicked: (noteId: Int) -> Unit,
+    onItemClicked: (noteId: String) -> Unit,
     onItemDeleted: () -> Unit
 ) {
 

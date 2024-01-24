@@ -32,7 +32,7 @@ fun NavigationAppHost(
 
         composable(
             route = "${Route.DETAIL}/{${Argument.NOTE_ID}}",
-            arguments = listOf(navArgument(Argument.NOTE_ID) { type = NavType.IntType })
+            arguments = listOf(navArgument(Argument.NOTE_ID) { type = NavType.StringType })
         ) {
             val viewModel = hiltViewModel<NoteDetailEditViewModel>()
             NoteItemDetail(

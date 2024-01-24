@@ -34,7 +34,7 @@ class NoteDetailEditViewModel @Inject constructor(
         private const val TAG = "NoteDetailViewModel"
     }
 
-    private val noteId: Int? = savedStateHandle[Argument.NOTE_ID]
+    private val noteId: String? = savedStateHandle[Argument.NOTE_ID]
 
     private var _noteDetailResult = MutableStateFlow<NoteUIState<Note>>(NoteUIState.Loading())
     var noteDetailResult = _noteDetailResult.asStateFlow()
@@ -46,14 +46,26 @@ class NoteDetailEditViewModel @Inject constructor(
     val state: State<Note> = _state
 
     init {
-        if (noteId != -1) {
-            getNoteDetail()
+        if (noteId == "-1") {
+            getNewNote()
         } else {
-            val note = Note(
-                title = "Enter title...",
-                description = "Enter description..."
-            )
-            _noteDetailResult.value = NoteUIState.Success(note)
+            getNoteDetail()
+        }
+    }
+
+    private fun getNewNote() {
+        viewModelScope.launch(Dispatchers.Main) {
+            repository.generateNoteId()
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    val note = Note(
+                        id = it,
+                        title = "Enter title...",
+                        description = "Enter description..."
+                    )
+                    _state.value = note
+                    _noteDetailResult.value = NoteUIState.Success(note)
+                }
         }
     }
 

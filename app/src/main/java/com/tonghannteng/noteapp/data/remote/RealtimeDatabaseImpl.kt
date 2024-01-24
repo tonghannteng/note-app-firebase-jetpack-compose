@@ -48,7 +48,7 @@ class RealtimeDatabaseImpl @Inject constructor(
                     trySend(RealtimeDatabaseState.Failure(Exception("Realtime update DB failed")))
                 }
             }
-            databaseReference.child(note.id.toString()).setValue(note)
+            databaseReference.child(note.id).setValue(note)
                 .addOnCompleteListener(listener)
             awaitClose { close() }
         }
@@ -64,6 +64,15 @@ class RealtimeDatabaseImpl @Inject constructor(
             }
             databaseReference.child(noteId).removeValue()
                 .addOnCompleteListener(listener)
+            awaitClose { close() }
+        }
+
+    override suspend fun generateTodoNoteId(): Flow<String> =
+        callbackFlow {
+            val key = databaseReference.push().key
+            if (key != null) {
+                trySend(key)
+            }
             awaitClose { close() }
         }
 }

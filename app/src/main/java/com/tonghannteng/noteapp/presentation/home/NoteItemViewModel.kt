@@ -55,9 +55,9 @@ class NoteItemViewModel @Inject constructor(
         }
     }
 
-    fun onItemDelete(id: Int) {
+    fun onItemDelete(id: String) {
         viewModelScope.launch(Dispatchers.Main) {
-            repository.deleteTodoNoteById(noteId = id.toString())
+            repository.deleteTodoNoteById(noteId = id)
                 .flowOn(Dispatchers.IO)
                 .collect { result ->
                     when (result) {

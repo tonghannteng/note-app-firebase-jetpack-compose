@@ -11,4 +11,5 @@ interface IRepository {
     fun getTodoNote(): Flow<RepositoryState<List<Note>>>
     fun updateTodoNote(note: Note): Flow<RepositoryState<Boolean>>
     fun deleteTodoNoteById(noteId: String): Flow<RepositoryState<String>>
+    fun generateNoteId(): Flow<String>
 }

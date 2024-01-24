@@ -1,6 +1,5 @@
 package com.tonghannteng.noteapp.data.repository
 
-import android.util.Log
 import com.tonghannteng.noteapp.data.model.Note
 import com.tonghannteng.noteapp.data.remote.IRealtimeDatabase
 import com.tonghannteng.noteapp.data.remote.RealtimeDatabaseState
@@ -75,6 +74,14 @@ class RepositoryImpl @Inject constructor(
                 } catch (e: Exception) {
                     emit(RepositoryState.Failure(e))
                 }
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun generateNoteId(): Flow<String> {
+        return flow {
+            realtimeDatabase.generateTodoNoteId().collect {
+                emit(it)
             }
         }.flowOn(Dispatchers.IO)
     }
